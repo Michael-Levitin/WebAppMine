@@ -21,7 +21,7 @@ public class ArrayStorage implements IStorrage {
 
   @Override
   public void save(Resume r) {
-    LOGGER.info("Saving resume with Uiid" + r.getUuid());
+    LOGGER.info("Saving resume with Uiid = " + r.getUuid());
     int idx =  getIndex(r.getUuid());
     if (idx != -1)
 //      try {

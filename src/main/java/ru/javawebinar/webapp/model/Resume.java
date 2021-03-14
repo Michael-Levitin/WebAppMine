@@ -1,8 +1,10 @@
 package ru.javawebinar.webapp.model;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Resume implements Comparable<Resume>{
   private String uuid;
