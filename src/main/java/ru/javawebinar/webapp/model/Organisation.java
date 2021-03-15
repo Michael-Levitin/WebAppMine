@@ -5,5 +5,13 @@ import java.util.List;
 
 public class Organisation {
   private Link link;
-  List<OrganisationPeriod> periods;
+  List<Period> periods;
+
+  public static class Period {
+    private Date startDate;
+    private Date endDate;
+    private String position;
+    private String content;
+  }
+
 }
