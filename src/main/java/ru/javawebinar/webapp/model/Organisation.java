@@ -12,6 +12,16 @@ public class Organisation {
     private Date endDate;
     private String position;
     private String content;
+
+    public Period() {
+    }
+
+    public Period(Date startDate, Date endDate, String position, String content) {
+      this.startDate = startDate;
+      this.endDate = endDate;
+      this.position = position;
+      this.content = content;
+    }
   }
 
 }
