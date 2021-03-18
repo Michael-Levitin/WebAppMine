@@ -8,7 +8,7 @@ import java.util.*;
 public class MapStorage extends AbstractStorage {
 
   private TreeMap<String, Resume> map = new TreeMap<>();
-//  SortedMap<String, Resume> fileExtensions = new TreeMap<>(String::compareToIgnoreCase);
+//  SortedMap<String, String> fileExtensions = new TreeMap<>(String::compareToIgnoreCase);
 //  SortedMap<String, String> fileExtensions = new TreeMap<>(Comparator.reverseOrder());
 
   @Override
