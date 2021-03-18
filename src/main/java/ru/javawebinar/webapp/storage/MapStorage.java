@@ -1,56 +1,51 @@
 package ru.javawebinar.webapp.storage;
 
-import ru.javawebinar.webapp.WebAppException;
 import ru.javawebinar.webapp.model.Resume;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
 
-  private TreeMap<String, Resume> map = new TreeMap<>();
+  private Map<String, Resume> map = new HashMap<>();
 //  SortedMap<String, String> fileExtensions = new TreeMap<>(String::compareToIgnoreCase);
 //  SortedMap<String, String> fileExtensions = new TreeMap<>(Comparator.reverseOrder());
 
   @Override
-  public void clear() {
+  public void doClear() {
     map.clear();
   }
 
   @Override
+  protected boolean exist(String uiid) {
+    return map.containsKey(uiid);
+  }
+
+  @Override
   public void doSave(Resume r) {
-    if (map.containsKey(r.getUuid()))
-      throw new WebAppException("Resume" + r.getUuid() + "already exists");
+  map.put(r.getUuid(), r);
+  }
+
+  @Override
+  public void doUpdate(Resume r) {
     map.put(r.getUuid(), r);
   }
 
   @Override
-  public void update(Resume r) {
-    logger.info("Updated resume with uiid = " + r.getUuid());
-    if (! map.containsKey(r.getUuid()))
-      throw new WebAppException("Resume with uiid = " + r.getUuid() + "doesn't exists");
-    map.remove(r.getUuid());
-    map.put(r.getUuid(), r);
-  }
-
-  @Override
-  public Resume load(String uuid) {
-    logger.info("Loading resume with uiid = " + uuid);
-    if (! map.containsKey(uuid))
-      throw new WebAppException("Resume with uiid = " + uuid + " doesn't exists");
+  public Resume doLoad(String uuid) {
     return map.get(uuid);
   }
 
   @Override
-  public void delete(String uuid) {
-    logger.info("Deleting resume with uiid = " + uuid);
-    if (! map.containsKey(uuid))
-      throw new WebAppException("Resume with uiid = " + uuid + " doesn't exists");
+  public void doDelete(String uuid) {
     map.remove(uuid);
   }
 
   @Override
-  public Collection<Resume> getAllSorted() {
-    return (Collection<Resume>) map;
+  public List<Resume> doGetAll() {
+    return new ArrayList<>(map.values());
   }
 
   @Override
