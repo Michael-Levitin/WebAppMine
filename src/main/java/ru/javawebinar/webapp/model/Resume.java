@@ -15,6 +15,7 @@ public class Resume implements Comparable<Resume>{
   private List<Section> sections = new LinkedList<>();
 
   public Resume(String fullName, String location) {
+    // base constructor
     this(UUID.randomUUID().toString(), fullName, location);
   } // generates unique number/string
 
@@ -24,12 +25,31 @@ public class Resume implements Comparable<Resume>{
     this.location = location;
   }
 
+  public Resume() {
+  }
+
+  //  @Override
+//  public boolean equals(Object o) {
+//    if (this == o) return true;
+//    if (o == null || getClass() != o.getClass()) return false;
+//    Resume resume = (Resume) o;
+//    return uuid.equals(resume.uuid);
+//  }
+//
+//  @Override
+//  public int hashCode() {
+//    return Objects.hash(uuid);
+//  }
+//  // hashcode should be calculated from immutable field
+//
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Resume resume = (Resume) o;
-    return Objects.equals(uuid, resume.uuid) &&
+    return uuid.equals(resume.uuid) &&
             Objects.equals(fullName, resume.fullName) &&
             Objects.equals(homePage, resume.homePage) &&
             Objects.equals(location, resume.location) &&
@@ -41,6 +61,20 @@ public class Resume implements Comparable<Resume>{
   public int hashCode() {
     return Objects.hash(uuid, fullName, homePage, location, contacts, sections);
   }
+
+  @Override
+  public String toString() {
+    return "Resume{" +
+            "uuid='" + uuid + '\'' +
+            ", fullName='" + fullName + '\'' +
+            ", homePage='" + homePage + '\'' +
+            ", location='" + location + '\'' +
+            ", contacts=" + contacts +
+            ", sections=" + sections +
+            '}';
+  }
+
+
 
   public String getUuid() {
     return uuid;
@@ -64,10 +98,6 @@ public class Resume implements Comparable<Resume>{
 
   public List<Section> getSection() {
     return sections;
-  }
-
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
   }
 
   public void setFullName(String fullName) {
