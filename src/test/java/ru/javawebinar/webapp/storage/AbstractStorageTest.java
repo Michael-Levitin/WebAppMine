@@ -3,14 +3,12 @@ package ru.javawebinar.webapp.storage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.webapp.WebAppException;
-import ru.javawebinar.webapp.model.Contact;
 import ru.javawebinar.webapp.model.ContactType;
 import ru.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Objects;
 
- import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 abstract public class AbstractStorageTest  {
   private Resume R1, R2, R3;
@@ -19,7 +17,7 @@ abstract public class AbstractStorageTest  {
 /*  static { // static initialisation block
    }
 
-  @BeforeClass // run once before
+  @BeforeClass // run once before class
   static void beforeAll() {
     // in this case - same as static
   }*/
@@ -27,14 +25,14 @@ abstract public class AbstractStorageTest  {
   @BeforeEach
   void beforeEach() {
     R1 = new Resume("Полное имя1", "location1");
-    R1.addContact(new Contact(ContactType.MAIL, "mail@yandex.ru"));
-    R1.addContact(new Contact(ContactType.PHONE, "11111"));
+    R1.addContact(ContactType.MAIL, "mail@yandex.ru");
+    R1.addContact(ContactType.PHONE, "11111");
     R2 = new Resume("Полное имя2", "location2");
-    R2.addContact(new Contact(ContactType.SKYPE, "krolik"));
-    R2.addContact(new Contact(ContactType.PHONE, "22222"));
+    R2.addContact(ContactType.SKYPE, "krolik");
+    R2.addContact(ContactType.PHONE, "22222");
     R3 = new Resume("Полное имя3", "location3");
-    R3.addContact(new Contact(ContactType.ICQ, "65454821"));
-    R3.addContact(new Contact(ContactType.PHONE, "3333"));
+    R3.addContact(ContactType.ICQ, "65454821");
+    R3.addContact(ContactType.PHONE, "3333");
 
     storage.clear();
     storage.save(R3);
@@ -112,18 +110,5 @@ abstract public class AbstractStorageTest  {
   @Test
   void testSize() {
     assertEquals(3, storage.size());
-  }
-
-  public static boolean compareResume(Resume r1, Resume r2)
-  { if (r1 == r2)
-    return true;
-    if (r1 == null || r2 == null || r1.getClass() != r2.getClass())
-      return false;
-    return r1.getUuid().equals(r2.getUuid()) &&
-            Objects.equals(r1.getFullName(), r2.getFullName()) &&
-            Objects.equals(r1.getHomePage(), r2.getHomePage()) &&
-            Objects.equals(r1.getLocation(), r2.getLocation()) &&
-            Objects.equals(r1.getContacts(), r2.getContacts()) &&
-            Objects.equals(r1.getSection(),  r2.getSection());
   }
 }
