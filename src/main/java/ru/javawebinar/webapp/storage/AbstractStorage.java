@@ -1,11 +1,10 @@
 package ru.javawebinar.webapp.storage;
 
 import ru.javawebinar.webapp.WebAppException;
+import ru.javawebinar.webapp.model.ContactType;
 import ru.javawebinar.webapp.model.Resume;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 abstract public class AbstractStorage implements IStorrage {
@@ -66,9 +65,24 @@ abstract public class AbstractStorage implements IStorrage {
   public Collection<Resume> getAllSorted() {
     logger.info("GetAllSorted");
     List<Resume> list = doGetAll();
-    Collections.sort(list);
+    list.sort(Comparator.comparing(Resume::getFullName) // Comparator chain
+            .thenComparing(Resume::getUuid));
     return list;
-//    return Collections.singletonList(new Resume());
+//    Same, without Comparator chain, method reference and list-specific sort
+   /* Collections.sort(list, new Comparator<Resume>() {
+      @Override
+      public int compare(Resume o1, Resume o2) {
+        int cmp = o1.getFullName().compareTo(o2.getFullName());
+        if (cmp != 0) return cmp;
+        return o1.getUuid().compareTo(o2.getUuid());
+      }
+    });
+    return list;*/
+//    -------------------------
+//      return o1.getUuid().compareTo(o2.getUuid());//        return   o1.getContacts(ContactType.MAIL).compareTo(o2.getContacts(ContactType.MAIL));
+//        Cannot do like this - could be NPE, cause ContactType can be null
+
+//    return Collections.singletonList(new Resume()); return collection of one
   }
 
   protected abstract List<Resume> doGetAll();
