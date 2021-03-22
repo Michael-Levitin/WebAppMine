@@ -1,17 +1,21 @@
 package ru.javawebinar.webapp.model;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Resume implements Comparable<Resume>{
+public final class Resume implements Comparable<Resume> { // { //
   private String uuid;
   private String fullName;
   private String homePage;
   private String location;
-  private List<Contact> contacts = new LinkedList<>();
+  private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+  // Map with Enum values as keys (supply Enum class)
   private List<Section> sections = new LinkedList<>();
 
   public Resume(String fullName, String location) {
@@ -28,39 +32,39 @@ public class Resume implements Comparable<Resume>{
   public Resume() {
   }
 
-  //  @Override
-//  public boolean equals(Object o) {
-//    if (this == o) return true;
-//    if (o == null || getClass() != o.getClass()) return false;
-//    Resume resume = (Resume) o;
-//    return uuid.equals(resume.uuid);
-//  }
-//
-//  @Override
-//  public int hashCode() {
-//    return Objects.hash(uuid);
-//  }
-//  // hashcode should be calculated from immutable field
-//
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Resume resume = (Resume) o;
-    return uuid.equals(resume.uuid) &&
-            Objects.equals(fullName, resume.fullName) &&
-            Objects.equals(homePage, resume.homePage) &&
-            Objects.equals(location, resume.location) &&
-            Objects.equals(contacts, resume.contacts) &&
-            Objects.equals(sections, resume.sections);
+    return uuid.equals(resume.uuid);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, fullName, homePage, location, contacts, sections);
+    return Objects.hash(uuid);
   }
+  // hashcode should be calculated from immutable field
+
+
+//
+//  @Override
+//  public boolean equals(Object o) {
+//    if (this == o) return true;
+//    if (o == null || getClass() != o.getClass()) return false;
+//    Resume resume = (Resume) o;
+//    return uuid.equals(resume.uuid) &&
+//            Objects.equals(fullName, resume.fullName) &&
+//            Objects.equals(homePage, resume.homePage) &&
+//            Objects.equals(location, resume.location) &&
+//            Objects.equals(contacts, resume.contacts) &&
+//            Objects.equals(sections, resume.sections);
+//  }
+//
+//  @Override
+//  public int hashCode() {
+//    return Objects.hash(uuid, fullName, homePage, location, contacts, sections);
+//  }
 
   @Override
   public String toString() {
@@ -92,8 +96,8 @@ public class Resume implements Comparable<Resume>{
     return location;
   }
 
-  public List<Contact> getContacts() {
-    return contacts;
+  public  String getContacts(ContactType type) {
+    return contacts.get(type);
   }
 
   public List<Section> getSection() {
@@ -104,6 +108,7 @@ public class Resume implements Comparable<Resume>{
     this.fullName = fullName;
   }
 
+
   public void setHomePage(String homePage) {
     this.homePage = homePage;
   }
@@ -112,7 +117,7 @@ public class Resume implements Comparable<Resume>{
     this.location = location;
   }
 
-  public void setContacts(List<Contact> contacts) {
+  public void setContacts(Map<ContactType, String> contacts) {
     this.contacts = contacts;
   }
 
@@ -124,11 +129,11 @@ public class Resume implements Comparable<Resume>{
     sections.add(s);
   }
 
-  public void addContact(Contact c) {
-    contacts.add(c);
+  public void addContact(ContactType type, String value) {
+    contacts.put(type, value);
   }
 
-  @Override
+//  @Override
   public int compareTo(@NotNull Resume o) {
     return fullName.compareTo(o.fullName);
   }
