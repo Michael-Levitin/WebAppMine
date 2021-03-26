@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage<String> {
 
   private Map<String, Resume> map = new HashMap<>();
 //  SortedMap<String, String> fileExtensions = new TreeMap<>(String::compareToIgnoreCase);
@@ -19,28 +19,33 @@ public class MapStorage extends AbstractStorage {
   }
 
   @Override
-  protected boolean exist(String uiid) {
-    return map.containsKey(uiid);
+  protected String getContext(String uiid) {
+    return uiid;
   }
 
   @Override
-  public void doSave(Resume r) {
-  map.put(r.getUuid(), r);
+  protected boolean exist(String context) {
+    return (map.containsKey(context));
   }
 
   @Override
-  public void doUpdate(Resume r) {
-    map.put(r.getUuid(), r);
+  protected void doSave(String uiid, Resume r) {
+    map.put(uiid, r);
   }
 
   @Override
-  public Resume doLoad(String uuid) {
-    return map.get(uuid);
+  protected void doUpdate(String uiid, Resume r) {
+    map.put(uiid, r);
   }
 
   @Override
-  public void doDelete(String uuid) {
-    map.remove(uuid);
+  protected Resume doLoad(String uiid) {
+    return map.get(uiid);
+  }
+
+  @Override
+  protected void doDelete(String uiid) {
+    map.remove(uiid);
   }
 
   @Override

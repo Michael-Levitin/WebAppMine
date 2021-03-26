@@ -5,11 +5,13 @@ import ru.javawebinar.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public class ArrayStorage extends AbstractStorage {
+public class ArrayStorage extends AbstractStorage<Integer> {
+//  Parametrisation(?) of C with Integer, we need int, but primitive types aren't allowed
 
   private static final int LIMIT = 100;
   private Resume[] array = new Resume[LIMIT];
   private int size = 0;
+//  private int idx;
 
   @Override
   public void doClear() {
@@ -18,25 +20,25 @@ public class ArrayStorage extends AbstractStorage {
   }
 
   @Override
-  public void doSave(Resume r) {
+  protected void doSave(Integer ctx, Resume r) {
       array[size++] = r;
   }
 
   @Override
-  public void doUpdate(Resume r) {
-    int idx = getIndex(r.getUuid());
+  public void doUpdate(Integer ctx, Resume r) {
+    int idx = getContext(r.getUuid());
     array[idx] = r;
   }
 
   @Override
-  public Resume doLoad(String uuid) {
-    int idx = getIndex(uuid);
-    return array[idx];
+  public Resume doLoad(Integer index) {
+//    int idx = getIndex(uuid);
+    return array[index];
   }
 
   @Override
-  public void doDelete(String uuid) {
-    int idx = getIndex(uuid);
+  public void doDelete(Integer idx) {
+//    int idx = getContext(uuid);
     int numMoved = size - idx - 1;
     if (numMoved > 0)
       System.arraycopy(array, idx+1, array, idx, numMoved);
@@ -59,17 +61,19 @@ public class ArrayStorage extends AbstractStorage {
     return arraySize;
   }
 
-  public int getIndex(String uiid) {
-      for (int i = 0; i < array.length; i++) {
-        if (array[i] != null)
-          if (array[i].getUuid().equals(uiid))
-            return i;
-      }
-      return -1;
+  @Override
+  protected Integer getContext(String uiid) {
+    for (int i = 0; i < array.length; i++) {
+      if (array[i] != null)
+        if (array[i].getUuid().equals(uiid))
+          return i;
+    }
+    return -1;
   }
 
   @Override
-  protected boolean exist(String uiid) {
-    return getIndex(uiid) != -1;
+  protected boolean exist(Integer idx) {
+    // TODO rename to isExist later
+    return idx!=-1;
   }
 }
