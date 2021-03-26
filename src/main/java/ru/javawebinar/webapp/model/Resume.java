@@ -2,21 +2,33 @@ package ru.javawebinar.webapp.model;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Resume implements Comparable<Resume> { // { //
+//
+public final class Resume implements Serializable, Comparable<Resume> { // { //
+  public static long serialVersionUID = 1L; //
+
   private String uuid;
   private String fullName;
   private String homePage;
   private String location;
   private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+  private Map<SectionType, String> sections = new EnumMap<>(SectionType.class);
   // Map with Enum values as keys (supply Enum class)
-  private List<Section> sections = new LinkedList<>();
+//  private List<Section> sections = new LinkedList<>();
+
+  public static final Resume EMPTY;
+
+  static {
+    EMPTY = new Resume();
+//    for (SectionType type : SectionType.values()) {
+//
+//    }
+  }
 
   public Resume(String fullName, String location) {
     // base constructor
@@ -47,25 +59,6 @@ public final class Resume implements Comparable<Resume> { // { //
   // hashcode should be calculated from immutable field
 
 
-//
-//  @Override
-//  public boolean equals(Object o) {
-//    if (this == o) return true;
-//    if (o == null || getClass() != o.getClass()) return false;
-//    Resume resume = (Resume) o;
-//    return uuid.equals(resume.uuid) &&
-//            Objects.equals(fullName, resume.fullName) &&
-//            Objects.equals(homePage, resume.homePage) &&
-//            Objects.equals(location, resume.location) &&
-//            Objects.equals(contacts, resume.contacts) &&
-//            Objects.equals(sections, resume.sections);
-//  }
-//
-//  @Override
-//  public int hashCode() {
-//    return Objects.hash(uuid, fullName, homePage, location, contacts, sections);
-//  }
-
   @Override
   public String toString() {
     return "Resume{" +
@@ -77,8 +70,6 @@ public final class Resume implements Comparable<Resume> { // { //
             ", sections=" + sections +
             '}';
   }
-
-
 
   public String getUuid() {
     return uuid;
@@ -96,11 +87,11 @@ public final class Resume implements Comparable<Resume> { // { //
     return location;
   }
 
-  public  String getContacts(ContactType type) {
-    return contacts.get(type);
+  public Map<ContactType, String> getContacts() {
+    return contacts;
   }
 
-  public List<Section> getSection() {
+  public Map<SectionType, String> getSections() {
     return sections;
   }
 
@@ -121,12 +112,8 @@ public final class Resume implements Comparable<Resume> { // { //
     this.contacts = contacts;
   }
 
-  public void setSections(List<Section> sections) {
-    this.sections = sections;
-  }
-
-  public void addSection(Section s) {
-    sections.add(s);
+  public void addSection(SectionType type, String sectionName) {
+    sections.put(type, sectionName);
   }
 
   public void addContact(ContactType type, String value) {

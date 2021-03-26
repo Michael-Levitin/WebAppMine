@@ -1,10 +1,13 @@
 package ru.javawebinar.webapp.model;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Link {
+public class Link implements Serializable {
+
+  public static Link EMPTY = new Link();
+  public static long serialVersionUID = 1L;
   private String name;
   private String url;
-  public static Link EMPTY = new Link();
 
   public Link() { // calling base constructor
     this("", null);

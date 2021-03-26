@@ -1,11 +1,15 @@
 package ru.javawebinar.webapp.model;
 
-public enum SectionType {
+import java.io.Serializable;
+
+public enum SectionType implements Serializable {
   ACHIEVEMENT("Достижения"),
   EDUCATION("Образование"),
   EXPIRIENCE("Опыт работы"),
   OBJECTIVE("Позиция"),
   QUALIFICATIONS("Квалификация");
+
+  public static long serialVersionUID = 1L;
 
   private String title;
 

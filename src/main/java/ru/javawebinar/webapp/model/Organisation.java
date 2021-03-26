@@ -1,9 +1,12 @@
 package ru.javawebinar.webapp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Organisation {
+public class Organisation implements Serializable {
+  public static long serialVersionUID = 1L;
+
   private Link link;
   List<Period> periods;
 
